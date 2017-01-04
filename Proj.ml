@@ -126,9 +126,12 @@ let change_color i =
 ;;
 *)
 
+
+(*La région en fonction d'un point de coordonées x y*)
 let get_Zone x y m =
   m.(x).(y);
 ;;
+
 
 let matchColor c = match c with 
 |None -> white
@@ -137,11 +140,12 @@ let matchColor c = match c with
 |Some green -> green
 |Some yellow -> yellow
 ;;
+
 let get_Color i s =   
 matchColor s.(i).c;
 ;;
 
-
+(*Prochaine couleur*)
 let next_Color c = 
   let color = ref black in
   if(c = red) then color := blue;
@@ -152,6 +156,7 @@ let next_Color c =
   !color;
 ;;
 
+(*Détermine la prochaine couleur pour colorier une région en fonction de sa couleur actuelle*)
 let makeColorOption c = match c with
   | blue -> Some blue
   | red -> Some red
@@ -161,6 +166,7 @@ let makeColorOption c = match c with
 ;;
 
 
+(*Recupère les coordonnées du pixel où on clique et colorie toute la région*)
 
 let get_pixel_Color m v = 
 	let e = wait_next_event[Button_down] in 
@@ -168,6 +174,8 @@ let get_pixel_Color m v =
  			 let zone = get_Zone x y m in
  			 let x_seed =  v.seeds.(zone).x in
 		   let y_seed =  v.seeds.(zone).y in
+			(* 						if (v.seeds.(k).c = None) then
+Ajouter condition ne pas colorier une région précoloriée dans la carte*)
           let newColor = makeColorOption (next_Color (get_Color (zone) (v.seeds)) ) in
            v.seeds.(zone) <- ({c = newColor ; x = x_seed ; y = y_seed});  
            get_Color (zone) (v.seeds);
@@ -188,8 +196,8 @@ let changer_couleur v m =
 							x := event.mouse_x;
 							y := event.mouse_y;*)
 							done;	*)
-;;
 
+(*Lancement du jeu *)
 let boucle m v =
 	while (true) do 
 			get_pixel_Color m v;
@@ -197,10 +205,9 @@ let boucle m v =
 	done;
 ;;
 
-
-	(*get_element_couple (3,4) 0 ;;
-	distance_taxicab (3,8) (6,9) ;; *)
+(*Iniatialisation matrice des régions avec distance Taxicab*)
 	let mat = regions_voronoi distance_taxicab v1;;
+
 	draw_voronoi mat v1;;
 	adjacences_voronoi v1 mat;;
 	boucle mat v1;;
