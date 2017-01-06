@@ -18,7 +18,7 @@ seeds = [|
 |]
 }
 
-(*Retourne l'abscisse ou l'ordonnée d'un point*)
+(*Retourne l'abscisse ou l'ordonnÃ©e d'un point*)
 let get_element_couple a i = 
 	match a with 
 	| (x,y) -> if i=0 then x else y
@@ -45,12 +45,12 @@ let distance_euclide a b =
 	;; *)
 
 
-(*Cacule la matrice m des régions du diagramme*)
+(*Cacule la matrice m des rÃ©gions du diagramme*)
 let regions_voronoi distance v =
 		let m = matrice (get_element_couple v.dim 0) (get_element_couple v.dim 1) in
 			for i = 0 to ((get_element_couple v.dim 0)-1) do
 				for j = 0 to ((get_element_couple v.dim 1)-1) do 
-					let min = ref ( distance (i,j) (v.seeds.(0).x , v.seeds.(0).y) ) in (* Variable qui change à chaque fois est une ref , On suppose que la distance min est calculé avec le seed num 0  *)
+					let min = ref ( distance (i,j) (v.seeds.(0).x , v.seeds.(0).y) ) in (* Variable qui change Ã  chaque fois est une ref , On suppose que la distance min est calculÃ© avec le seed num 0  *)
 					let indice_germe = ref (0) in
 					for k =1 to (Array.length(v.seeds)-1) do 
 						let n = distance (i,j) (v.seeds.(k).x , v.seeds.(k).y) in
@@ -62,13 +62,13 @@ let regions_voronoi distance v =
 			m		
 	;;
 
-(*Colorier un pixel de coordonnées (x,y)*)
+(*Colorier un pixel de coordonnÃ©es (x,y)*)
 let colorier_pixel x y color=
 	set_color(color);
 	plot x y 
 	;;
 
-(*Retourne la couleur d'une région d'une diagramme*)
+(*Retourne la couleur d'une rÃ©gion d'une diagramme*)
 let get_couleur c = 
 	match c with 
 	| None -> white 
@@ -91,7 +91,7 @@ let draw_voronoi m v =
 ;;
 
 
-(*Cacule de la matrice d'adjacence*)
+(*Cacule de la matrice d'adjacence Ã  partir du voronoi v et la matrice des rÃ©gions*)
 let adjacences_voronoi v m =
 		let b = matrice_adj (Array.length(v.seeds)) (Array.length(v.seeds)) in 
 		for i= 0 to (Array.length(m)-1) do 
@@ -106,7 +106,7 @@ let adjacences_voronoi v m =
 ;; 
 
 
-(*Récupère coordonnèes du clique de la souris*)
+(*RÃ©cupÃ¨re coordonnÃ¨es du clique de la souris*)
 let clique_souris() = 
 		let e = wait_next_event[Button_down] in 
 				let x = e.mouse_x and y = e.mouse_y in 
@@ -127,7 +127,7 @@ let change_color i =
 *)
 
 
-(*La région en fonction d'un point de coordonées x y*)
+(*La rÃ©gion en fonction d'un point de coordonÃ©es x y*)
 let get_Zone x y m =
   m.(x).(y);
 ;;
@@ -156,7 +156,7 @@ let next_Color c =
   !color;
 ;;
 
-(*Détermine la prochaine couleur pour colorier une région en fonction de sa couleur actuelle*)
+(*DÃ©termine la prochaine couleur pour colorier une rÃ©gion en fonction de sa couleur actuelle*)
 let makeColorOption c = match c with
   | blue -> Some blue
   | red -> Some red
@@ -166,7 +166,7 @@ let makeColorOption c = match c with
 ;;
 
 
-(*Recupère les coordonnées du pixel où on clique et colorie toute la région*)
+(*RecupÃ¨re les coordonnÃ©es du pixel oÃ¹ on clique et colorie toute la rÃ©gion*)
 
 let get_pixel_Color m v = 
 	let e = wait_next_event[Button_down] in 
@@ -175,7 +175,7 @@ let get_pixel_Color m v =
  			 let x_seed =  v.seeds.(zone).x in
 		   let y_seed =  v.seeds.(zone).y in
 			(* 						if (v.seeds.(k).c = None) then
-Ajouter condition ne pas colorier une région précoloriée dans la carte*)
+Ajouter condition ne pas colorier une rÃ©gion prÃ©coloriÃ©e dans la carte*)
           let newColor = makeColorOption (next_Color (get_Color (zone) (v.seeds)) ) in
            v.seeds.(zone) <- ({c = newColor ; x = x_seed ; y = y_seed});  
            get_Color (zone) (v.seeds);
@@ -183,7 +183,7 @@ Ajouter condition ne pas colorier une région précoloriée dans la carte*)
 ;;
 
 
-(*Change la couleur de la région correspondant au pixel x,y
+(*Change la couleur de la rÃ©gion correspondant au pixel x,y
 let changer_couleur v m =
 	let e = wait_next_event[Button_down] in 
 		let x = e.mouse_x and y =e.mouse_y in
@@ -205,7 +205,7 @@ let boucle m v =
 	done;
 ;;
 
-(*Iniatialisation matrice des régions avec distance Taxicab*)
+(*Iniatialisation matrice des rÃ©gions avec distance Taxicab*)
 	let mat = regions_voronoi distance_taxicab v1;;
 
 	draw_voronoi mat v1;;
